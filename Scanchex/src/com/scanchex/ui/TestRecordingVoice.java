@@ -2,8 +2,12 @@ package com.scanchex.ui;
 
 import java.io.IOException;
 
+import com.scanchex.utils.Resources;
+import com.scanchex.utils.SCPreferences;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -176,6 +180,25 @@ public class TestRecordingVoice extends BaseActivity{
 	        ll.addView(mPlayButton, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 	                ViewGroup.LayoutParams.WRAP_CONTENT,0));
 	        setContentView(ll);
+	    }
+	    
+	    @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isLaunchloginactivity()  && Resources.getResources().isFromBackground())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setLaunchloginactivity(false);
+	        			 Resources.getResources().setFromBackground(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
 	    }
 
 	    @Override

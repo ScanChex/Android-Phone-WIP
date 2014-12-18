@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
@@ -130,6 +131,25 @@ public class SCCameraPeviewScreen extends BaseActivity {
 		});
 
 	}
+	
+	  @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isLaunchloginactivity()  && Resources.getResources().isFromBackground())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setLaunchloginactivity(false);
+	        			 Resources.getResources().setFromBackground(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
+	    }
 
 	public void onPause() {
 		super.onPause();

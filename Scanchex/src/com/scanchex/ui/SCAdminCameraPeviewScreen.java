@@ -129,6 +129,8 @@ public class SCAdminCameraPeviewScreen extends BaseActivity {
 			strLongitude = "Not Found";
 		}
 	}
+	
+	 
 
 	public void onPause() {
 		super.onPause();

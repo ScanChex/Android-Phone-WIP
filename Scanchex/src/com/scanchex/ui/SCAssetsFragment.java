@@ -81,6 +81,8 @@ public class SCAssetsFragment extends Fragment implements OnClickListener {
 		long curMillis = curDate.getTime();
 		curTime = formatter.format(curDate);
 	}
+	
+	 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

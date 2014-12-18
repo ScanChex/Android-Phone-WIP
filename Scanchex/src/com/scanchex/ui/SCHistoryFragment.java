@@ -77,6 +77,8 @@ public class SCHistoryFragment extends Fragment implements OnClickListener {
 		new HistoryTask().execute(CONSTANTS.BASE_URL);
 		// }
 	}
+	
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

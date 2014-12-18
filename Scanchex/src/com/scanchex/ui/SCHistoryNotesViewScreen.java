@@ -1,6 +1,7 @@
 package com.scanchex.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
 
 public class SCHistoryNotesViewScreen extends BaseActivity{
@@ -49,6 +51,25 @@ public class SCHistoryNotesViewScreen extends BaseActivity{
 		pager.setCurrentItem(pagerPosition);
 		
 	}
+	
+	  @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isLaunchloginactivity()  && Resources.getResources().isFromBackground())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setLaunchloginactivity(false);
+	        			 Resources.getResources().setFromBackground(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
+	    }
 	
 	public void onNextClick(View view){
 		if(count<messageArray.length-1){

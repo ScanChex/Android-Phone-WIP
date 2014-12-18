@@ -62,6 +62,24 @@ public class SCAddCommentScreen extends BaseActivity{
 		this.finish();
 	}
 	
+	   @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isActivityafter10mins())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setActivityafter10mins(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
+	    }
+	
 	
 	private class UploadNotesTask extends AsyncTask<String, Integer, Boolean> {
 

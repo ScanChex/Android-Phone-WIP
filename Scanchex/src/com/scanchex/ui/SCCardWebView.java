@@ -12,10 +12,12 @@ import org.json.JSONObject;
 import com.scanchex.bo.SCMessageInfo;
 import com.scanchex.network.HttpWorker;
 import com.scanchex.utils.CONSTANTS;
+import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,6 +66,25 @@ public class SCCardWebView extends BaseActivity {
 		});
 
 	}
+	
+	  @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isLaunchloginactivity()  && Resources.getResources().isFromBackground())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setLaunchloginactivity(false);
+	        			 Resources.getResources().setFromBackground(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
+	    }
 	
 
 	private class CardTask extends AsyncTask<String, Integer, Boolean> {

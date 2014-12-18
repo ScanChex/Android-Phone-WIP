@@ -168,6 +168,8 @@ public class SCDocumentsFragment extends ListFragment implements
 		
 		
 	}
+	
+	
 
 	@Override
 	public void onClick(View v) {

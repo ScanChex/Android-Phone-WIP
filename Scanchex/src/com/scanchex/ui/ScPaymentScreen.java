@@ -156,6 +156,8 @@ public class ScPaymentScreen extends BaseActivity {
 
 		}
 	}
+	
+	 
 
 	public void onCLickChecque(View v) {
 		payment_type = "cheque";
@@ -171,6 +173,26 @@ public class ScPaymentScreen extends BaseActivity {
 		payment_type = "credit card";
 		new UploadTask().execute(CONSTANTS.BASE_URL);
 	}
+	
+	
+	  @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isLaunchloginactivity()  && Resources.getResources().isFromBackground())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setLaunchloginactivity(false);
+	        			 Resources.getResources().setFromBackground(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
+	    }
 
 	private class UploadTask extends AsyncTask<String, Void, Boolean> {
 

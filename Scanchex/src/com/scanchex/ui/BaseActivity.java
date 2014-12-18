@@ -3,6 +3,9 @@ package com.scanchex.ui;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import com.scanchex.utils.Resources;
+import com.scanchex.utils.SCPreferences;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,6 +17,7 @@ import android.util.Log;
 public class BaseActivity extends Activity {
 
     private static int sessionDepth = 0;
+    
     
     private PendingIntent pendingIntent;
     
@@ -27,6 +31,21 @@ public class BaseActivity extends Activity {
     protected void onStart() {
         super.onStart();       
         sessionDepth++;
+        if (Resources.getResources().isFromBackground()) {
+//        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+        		if (Resources.getResources().isActivityafter10mins())  {
+//        	//	fireAlarm();
+        			Resources.getResources().setFromBackground(false);
+        			Resources.getResources().setLaunchloginactivity(true);
+//        			Log.i("Base Activity", "App in foreground after 10 mins ");
+//        			 Resources.getResources().setActivityafter10mins(false);
+//        			Intent i = new Intent(this, SCLoginScreen.class);
+//        			startActivity(i);
+//        		   
+//        		}
+//        	    	
+        		}
+        }
     }
 
     @Override
@@ -37,7 +56,11 @@ public class BaseActivity extends Activity {
         if (sessionDepth == 0) {
             // app went to background
     		Log.i("Base Activity", "App in background ");
+    		if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
     		fireAlarm();
+    		Resources.getResources().setFromBackground(true);
+    //		    Resources.getResources().setActivityafter10mins(true);
+    		}
     		
         }
     }
@@ -56,7 +79,7 @@ public class BaseActivity extends Activity {
           AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
           
 
-          int interval = 10000;
+       
 
        //   manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
           
@@ -66,6 +89,8 @@ public class BaseActivity extends Activity {
     	  
     	  
     	 }
+    
+   
 
     	
    

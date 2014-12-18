@@ -9,5 +9,7 @@ public class CONSTANTS {
 //	public static final String BASE_URL = "http://www.veriscan.net/modules/cron/veriscanAPI.php";
 	public static final String BASE_URL = "http://www.scanchex.net/modules/cron/veriscanAPI.php";
 	public static final String BASE_URL_ADMIN = "http://scanchex.net/dev/api/";
+//	public static final String BASE_URL = "http://demo.scanchex.net/modules/cron/veriscanAPI.php";
+//	public static final String BASE_URL_ADMIN = "http://demo.scanchex.net/dev/api/";
 
 }

@@ -54,6 +54,18 @@ public class Resources {
 	private boolean isCheckPointScan;
 	private boolean correctTicket = false; 
 	private long timeToStartTicket;
+	private boolean activityafter10mins = false; 
+	private boolean launchloginactivity = false; 
+	private boolean fromBackground = false; 
+
+
+	public boolean isActivityafter10mins() {
+		return activityafter10mins;
+	}
+
+	public void setActivityafter10mins(boolean activityafter10mins) {
+		this.activityafter10mins = activityafter10mins;
+	}
 
 	public long getTimeToStartTicket() {
 		return timeToStartTicket;
@@ -283,4 +295,22 @@ public class Resources {
 	public void setQuestionsSubmitted(boolean isQuestionsSubmitted) {
 		this.isQuestionsSubmitted = isQuestionsSubmitted;
 	}
+
+	public boolean isLaunchloginactivity() {
+		return launchloginactivity;
+	}
+
+	public void setLaunchloginactivity(boolean launchloginactivity) {
+		this.launchloginactivity = launchloginactivity;
+	}
+
+	public boolean isFromBackground() {
+		return fromBackground;
+	}
+
+	public void setFromBackground(boolean fromBackground) {
+		this.fromBackground = fromBackground;
+	}
+	
+	
 }
