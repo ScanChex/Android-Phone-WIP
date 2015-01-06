@@ -50,6 +50,8 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 	ImageView image;
 	ImageView notesstatusicon;
 	ImageView questionstatusicon;
+	ImageView documentstatusicon;
+	
 	String reasonvalue;
 	TextView clientName;
 	TextView phoneNumber;
@@ -84,6 +86,8 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 		notesstatusicon = (ImageView) findViewById(R.id.notes_status_icon);
 		ticketStatusIcon = (ImageView) findViewById(R.id.ticket_status_icon);
 		questionstatusicon = (ImageView) findViewById(R.id.question_status_icon);
+		documentstatusicon = (ImageView) findViewById(R.id.document_status_icon);
+		
 		
 		clientName = (TextView) findViewById(R.id.text1);
 		phoneNumber = (TextView) findViewById(R.id.text2);
@@ -338,17 +342,43 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 		tInfo = Resources.getResources().getAssetTicketInfo();
 
 		
-		if (tInfo.is_questions.equalsIgnoreCase("YES")) {
-			questionstatusicon.setVisibility(View.VISIBLE);
-			
-		
-		if (Resources.getResources().isQuestionsSubmitted()) {
-			questionstatusicon.setBackgroundResource(R.drawable.accept_ticket);
-		} else {
-			questionstatusicon.setBackgroundResource(R.drawable.excalamation_icon);
-		}
+		if (tInfo.is_questions != null
+				&& tInfo.is_questions.trim().length() > 0) {
+			if (tInfo.is_questions.equalsIgnoreCase("YES")) {
+				questionstatusicon.setVisibility(View.VISIBLE);
+
+				if ((Resources.getResources().isQuestionsSubmitted())
+						&& Resources.getResources().isFirstScanDone()) {
+					questionstatusicon
+							.setBackgroundResource(R.drawable.accept_ticket);
+				} else {
+					questionstatusicon
+							.setBackgroundResource(R.drawable.excalamation_icon);
+				}
+			} else {
+				questionstatusicon.setVisibility(View.GONE);
+			}
 		} else {
 			questionstatusicon.setVisibility(View.GONE);
+		}
+		if (tInfo.is_fillable_docs != null
+				&& tInfo.is_fillable_docs.trim().length() > 0) {
+			if (tInfo.is_fillable_docs.equalsIgnoreCase("YES")) {
+				documentstatusicon.setVisibility(View.VISIBLE);
+
+				if ((Resources.getResources().isDocumentsCompleted())
+						&& Resources.getResources().isFirstScanDone()) {
+					documentstatusicon
+							.setBackgroundResource(R.drawable.accept_ticket);
+				} else {
+					documentstatusicon
+							.setBackgroundResource(R.drawable.excalamation_icon);
+				}
+			} else {
+				documentstatusicon.setVisibility(View.GONE);
+			}
+		} else {
+			documentstatusicon.setVisibility(View.GONE);
 		}
 	}
 
@@ -501,6 +531,9 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 		}
 		if (Resources.getResources().isQuestionsSubmitted()) {
 			questionstatusicon.setBackgroundResource(R.drawable.accept_ticket);
+		}
+		if (Resources.getResources().isDocumentsCompleted()) {
+			documentstatusicon.setBackgroundResource(R.drawable.accept_ticket);
 		}
 			
 	}

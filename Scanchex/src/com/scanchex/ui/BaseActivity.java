@@ -79,7 +79,7 @@ public class BaseActivity extends Activity {
           AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
           
 
-       
+          int interval = 10;
 
        //   manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
           

@@ -1,9 +1,12 @@
 package com.scanchex.bo;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class AssetsTicketsInfo {
-	
+public class AssetsTicketsInfo implements Comparable {
+
 	public String assetId;
 	public String assetAddressTwo;
 	public String assetLongitude;
@@ -45,7 +48,7 @@ public class AssetsTicketsInfo {
 	public String ticket_type;
 	public String employee;
 	public String is_questions;
-	
+	public String is_fillable_docs;
 
 	public ArrayList<ScCheckPoints> checkPoints;
 	
@@ -57,6 +60,33 @@ public class AssetsTicketsInfo {
 	public AssetsTicketsInfo() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public int compareTo(Object o) {
+		AssetsTicketsInfo e = (AssetsTicketsInfo) o;
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Date date, date1;
+
+		try {
+
+			date = formatter.parse(e.ticketTimeStamp);
+			date1 = formatter.parse(this.ticketTimeStamp);
+			int result = date.compareTo(date1);
+
+			if (result < 0) {
+				return -1;
+			} else if (result == 0) {
+				return 0;
+			} else {
+				return 1;
+			}
+
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		return 0;
+
 	}
 
 	public String getAssetId() {
@@ -395,6 +425,13 @@ public class AssetsTicketsInfo {
 	public void setIs_questions(String is_questions) {
 		this.is_questions = is_questions;
 	}
-	
+
+	public String getIs_fillable_docs() {
+		return is_fillable_docs;
+	}
+
+	public void setIs_fillable_docs(String is_fillable_docs) {
+		this.is_fillable_docs = is_fillable_docs;
+	}
 
 }

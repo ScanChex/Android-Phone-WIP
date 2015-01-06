@@ -32,6 +32,7 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ClipData.Item;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,9 +62,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.scanchex.adapters.DocumentEntryAdapter;
 import com.scanchex.adapters.SCDocumentsListAdapter;
-import com.scanchex.bo.AssetsTicketsInfo;
-import com.scanchex.bo.SCDocumentInfo;
+import com.scanchex.bo.*;
 import com.scanchex.network.HttpWorker;
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.Resources;
@@ -77,6 +78,7 @@ public class SCDocumentsFragment extends ListFragment implements
 	private TextView assetAddress;
 
 	SCDocumentsListAdapter adapter;
+	DocumentEntryAdapter adapter1;
 	private Button ScanTicketButton, SuspendTickectButton, CloseButton;
 	Activity mActivity;
 	String selectedPdfPath;
@@ -86,15 +88,23 @@ public class SCDocumentsFragment extends ListFragment implements
 	int scanArraySize = 0;
 	AssetsTicketsInfo tInfo;
 	String reasonvalue, curTime, ticketStatus, objvalue;
+	String documentStatus;
+	String document_id;
+	String documentURL;
+	String version;
 	private static final String PDF_MIME_TYPE = "application/pdf";
+	ArrayList items = new ArrayList();;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mActivity = getActivity();
-		adapter = new SCDocumentsListAdapter(getActivity(), Resources
-				.getResources().getDocumentsData());
-		setListAdapter(adapter);
+//		adapter = new SCDocumentsListAdapter(getActivity(), Resources
+//				.getResources().getDocumentsData());
+//		setListAdapter(adapter);
+		adapter1 = new DocumentEntryAdapter(getActivity(), items);
+		setListAdapter(adapter1);
 		tInfo = Resources.getResources().getAssetTicketInfo();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		formatter.setLenient(false);
@@ -102,9 +112,9 @@ public class SCDocumentsFragment extends ListFragment implements
 		Date curDate = new Date();
 		long curMillis = curDate.getTime();
 		curTime = formatter.format(curDate);
-		if (Resources.getResources().getDocumentsData() == null) {
+		//if (Resources.getResources().getDocumentsData() == null) {
 			new DocumentsTask().execute(CONSTANTS.BASE_URL);
-		}
+		//}
 
 	}
 
@@ -157,10 +167,12 @@ public class SCDocumentsFragment extends ListFragment implements
 			}
 			
 			if (pathName != null  && ( !tInfo.ticketStatus.equalsIgnoreCase("complete"))) {
-				selectedPdfPath = getPath(pathName);
-				contentType = "PDF";
-				new UploadTask().execute(CONSTANTS.BASE_URL);
-				pathName=null;
+				
+				showDocumentAlert();
+//				selectedPdfPath = getPath(pathName);
+//				contentType = "PDF";
+//				new UploadTask().execute(CONSTANTS.BASE_URL);
+//				pathName=null;
 			}
 
 		}
@@ -393,6 +405,9 @@ public class SCDocumentsFragment extends ListFragment implements
 	public void onListItemClick(ListView lv, View v, int position, long id) {
 		super.onListItemClick(lv, v, position, id);
 		SCDocumentInfo dInfo = (SCDocumentInfo) lv.getItemAtPosition(position);
+		document_id = dInfo.document_id;
+		version = dInfo.version;
+		documentURL = dInfo.documentUrl;
 
 		if (Resources.getResources().isFirstScanDone()) {
 
@@ -421,9 +436,10 @@ public class SCDocumentsFragment extends ListFragment implements
 
 				String filename = pdfUrl.substring(pdfUrl.lastIndexOf("/") + 1);
 				if(filename.contains(".pdf")){
-					Intent pdf = new Intent(getActivity(), TestShowPDF.class);
-					pdf.putExtra("PATH", dInfo.documentUrl);
-					startActivity(pdf);
+//					Intent pdf = new Intent(getActivity(), TestShowPDF.class);
+//					pdf.putExtra("PATH", dInfo.documentUrl);
+//					startActivity(pdf);
+					downloadAndOpenPDF(mActivity, dInfo.documentUrl);
 				} else {
 					downloadAndOpenPDF(mActivity, dInfo.documentUrl);
 				}
@@ -433,10 +449,12 @@ public class SCDocumentsFragment extends ListFragment implements
 //				Toast.makeText(getActivity(),
 //						"Please Scan First to view this Document",
 //						Toast.LENGTH_SHORT).show();
-				if (isPDFSupported(mActivity)) {
-					downloadAndOpenPDF(mActivity, dInfo.documentUrl);
-
-				}
+			//	showAlertDialog2("PDF Document", "Please scan the ticket to save your edits. Edits will not be saved in preview mode! ");
+				showFillableAlert();
+//				if (isPDFSupported(mActivity)) {
+//					downloadAndOpenPDF(mActivity, dInfo.documentUrl);
+//
+//				}
 				
 			}
 
@@ -679,22 +697,34 @@ public class SCDocumentsFragment extends ListFragment implements
 				JSONObject jObject = new JSONObject(response);
 				JSONArray nonFillable = new JSONArray();
 				JSONArray fillable = new JSONArray();
+				JSONArray holdDocuments = new JSONArray();
 				nonFillable = jObject.getJSONArray("non_fillable");
+			//
+				
 				vector = new Vector<SCDocumentInfo>();
+				//items = new ArrayList();
+				SectionItem secItem = new SectionItem("Non Fillable");
+			    items.add(secItem);  
+			      
 				if (nonFillable != null && nonFillable.length() > 0) {
 					for (int i = 0; i < nonFillable.length(); i++) {
 						SCDocumentInfo docInfo = new SCDocumentInfo();
 						JSONObject jObj = nonFillable.getJSONObject(i);
 						docInfo.documentSubject = jObj.getString("subject");
 						docInfo.documentUrl = jObj.getString("link");
+						docInfo.document_id = jObj.getString("document_id");
+						docInfo.version = jObj.getString("version");
 						docInfo.fillable = false;
+						docInfo.status="";
 						vector.add(docInfo);
+						items.add(docInfo);
 						Resources.getResources().setDocumentsData(vector);
-						adapter.setExtraInfo(vector);
+						//adapter.setExtraInfo(vector);
 					}
 				}
 
 				fillable = jObject.getJSONArray("fillable");
+				items.add( new SectionItem("Fillable")); 
 
 				if (fillable != null && fillable.length() > 0) {
 					for (int i = 0; i < fillable.length(); i++) {
@@ -702,10 +732,44 @@ public class SCDocumentsFragment extends ListFragment implements
 						JSONObject jObj = fillable.getJSONObject(i);
 						docInfo.documentSubject = jObj.getString("subject");
 						docInfo.documentUrl = jObj.getString("link");
+						docInfo.document_id = jObj.getString("document_id");
+						docInfo.version = jObj.getString("version");
+						
+						
 						docInfo.fillable = true;
+						docInfo.status="";
 						vector.add(docInfo);
+						items.add(docInfo);
 						Resources.getResources().setDocumentsData(vector);
-						adapter.setExtraInfo(vector);
+						//adapter.setExtraInfo(vector);
+					}
+				}
+				
+				holdDocuments = jObject.getJSONArray("hold");
+				items.add( new SectionItem("In Progress")); 
+				
+				Resources.getResources().setDocumentsCompleted(true);
+
+				
+				if (holdDocuments != null && holdDocuments.length() > 0) {
+					for (int i = 0; i < holdDocuments.length(); i++) {
+						SCDocumentInfo docInfo = new SCDocumentInfo();
+						JSONObject jObj = holdDocuments.getJSONObject(i);
+						docInfo.documentSubject = jObj.getString("subject");
+						docInfo.documentUrl = jObj.getString("link");
+						docInfo.document_id = jObj.getString("document_id");
+						docInfo.version = jObj.getString("version");
+						
+						docInfo.fillable = true;
+						docInfo.status=	jObj.getString("status");
+						if (docInfo.status.equals("hold")){
+							Resources.getResources().setDocumentsCompleted(false);
+
+						}
+						vector.add(docInfo);
+						items.add(docInfo);
+						Resources.getResources().setDocumentsData(vector);
+						//adapter.setExtraInfo(vector);
 					}
 				}
 
@@ -725,7 +789,8 @@ public class SCDocumentsFragment extends ListFragment implements
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			pdialog.dismiss();
-			adapter.notifyDataSetChanged();
+			//adapter.notifyDataSetChanged();
+			adapter1.notifyDataSetChanged();
 		}
 
 		@Override
@@ -887,6 +952,145 @@ public class SCDocumentsFragment extends ListFragment implements
 		}
 	}
 
+	
+	private class UploadTaskWithStatus extends AsyncTask<String, Void, Boolean> {
+
+		private ProgressDialog pdialog;
+		private String serverResp;
+
+		private String status;
+		private String message;
+
+		@Override
+		protected Boolean doInBackground(String... path) {
+			
+			version = String.valueOf(Integer.parseInt(version)+1);
+
+			String url = path[0];
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpContext localContext = new BasicHttpContext();
+			HttpPost httpPost = new HttpPost(url);
+			Log.i("URL", "<><><>" + url);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("master_key", ""
+					+ SCPreferences.getPreferences()
+							.getUserMasterKey(mActivity)));
+			nameValuePairs.add(new BasicNameValuePair("history_id", Resources
+					.getResources().getTicketHistoryId()));
+			// nameValuePairs.add(new BasicNameValuePair("history_id", "97"));
+			nameValuePairs.add(new BasicNameValuePair("asset_id", tInfo.assetId));
+			nameValuePairs.add(new BasicNameValuePair("action", "upload_document"));
+			nameValuePairs.add(new BasicNameValuePair("type", "pdf"));
+			nameValuePairs.add(new BasicNameValuePair("file", selectedPdfPath));
+			nameValuePairs.add(new BasicNameValuePair("upload_array", ""));
+			nameValuePairs.add(new BasicNameValuePair("status", documentStatus));
+			nameValuePairs.add(new BasicNameValuePair("version", version));
+			nameValuePairs.add(new BasicNameValuePair("ticket_id", tInfo.ticketId));
+			nameValuePairs.add(new BasicNameValuePair("username", ""
+					+ SCPreferences.getPreferences().getUserName(mActivity))
+						);
+			
+			nameValuePairs.add(new BasicNameValuePair("document_id", document_id));
+		    nameValuePairs.add(new BasicNameValuePair("file_name", "ScanCheX"
+					+ new Date().getTime()));
+			Log.i("FILE PATH TO BE UPLOADED >CTYPE>" + contentType, "<<<<>>>>>"
+					+ SCImageTakenScreen.selectedImagePath);
+
+			try {
+				MultipartEntity entity = new MultipartEntity(
+						HttpMultipartMode.BROWSER_COMPATIBLE);
+
+				for (int index = 0; index < nameValuePairs.size(); index++) {
+					if (nameValuePairs.get(index).getName()
+							.equalsIgnoreCase("file")) {
+						// If the key equals to "image", we use FileBody to
+						// transfer the data
+
+						entity.addPart(nameValuePairs.get(index).getName(),
+								new FileBody(new File(nameValuePairs.get(index)
+										.getValue()), contentType));
+					} else {
+						// Normal string data
+						entity.addPart(nameValuePairs.get(index).getName(),
+								new StringBody(nameValuePairs.get(index)
+										.getValue()));
+					}
+				}
+
+				httpPost.setEntity(entity);
+				HttpResponse response = httpClient.execute(httpPost,
+						localContext);
+				StringBuilder sb = null;
+				String line = null;
+				if (response != null) {
+					InputStream in = response.getEntity().getContent();
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(in));
+					sb = new StringBuilder();
+					while ((line = reader.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+				}
+				serverResp = sb.toString();
+				Log.i("SERVER RESP", "<><><>" + serverResp);
+				JSONObject obj = new JSONObject(serverResp);
+
+				if (serverResp.contains("error")) {
+					status = obj.getString("error");
+					return false;
+				} else {
+					status = obj.getString("status");
+					return true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return Boolean.FALSE;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			Log.i("DONE DONE", "DONE DONE");
+			pdialog.dismiss();
+			pdialog = null;
+			if (result) {
+				File file = new File(SCImageTakenScreen.selectedImagePath);
+				boolean deleted = file.delete();
+				showAlertDialog("Info", "Uploaded successfully");
+			} else {
+				showAlertDialog("Info", status);
+			}
+
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pdialog = new ProgressDialog(mActivity);
+			pdialog.setCancelable(false);
+			pdialog.setTitle("Uploading PDF File");
+			pdialog.setMessage("Please Wait...");
+			pdialog.show();
+
+		}
+
+		private void showAlertDialog(String title, String message) {
+			new AlertDialog.Builder(mActivity)
+					.setIcon(R.drawable.info_icon)
+					.setTitle(title)
+					.setMessage(message)
+					.setNeutralButton("OK",
+							new DialogInterface.OnClickListener() {
+
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+
+								}
+							}).show();
+		}
+	}
 	private void showAlertDialog2(String title, String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 
@@ -909,6 +1113,61 @@ public class SCDocumentsFragment extends ListFragment implements
 		AlertDialog welcomeAlert = builder.create();
 		welcomeAlert.show();
 
+	}
+	
+	private void showFillableAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+
+		builder
+				.setIcon(R.drawable.message_info_icon)
+				.setTitle("Info")
+				.setMessage("Please scan the ticket to save your docuemnt edits. Document edits will not be saved in preview mode!")
+				.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (isPDFSupported(mActivity)) {
+							downloadAndOpenPDF(mActivity, documentURL);
+
+						}
+					}
+				}).show();
+				
+	}
+	
+	private void showDocumentAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+
+		builder
+				.setIcon(R.drawable.message_info_icon)
+				.setTitle("Info")
+				.setMessage("is this Document completed?")
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						selectedPdfPath = getPath(pathName);
+						contentType = "PDF";
+						documentStatus="hold";
+						new UploadTaskWithStatus().execute(CONSTANTS.BASE_URL);
+						pathName=null;
+					}
+				})
+				.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								
+								selectedPdfPath = getPath(pathName);
+								contentType = "PDF";
+								documentStatus="completed";
+								new UploadTaskWithStatus().execute(CONSTANTS.BASE_URL);
+								pathName=null;
+									
+							}
+						}).show();
 	}
 
 	private String getContentType(Uri uri) {

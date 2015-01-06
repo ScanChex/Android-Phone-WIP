@@ -13,7 +13,7 @@ public class AlarmReceiver extends BroadcastReceiver {
  
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i(DEBUG_TAG, "Recurring alarm; requesting login service.");
+        Log.i(DEBUG_TAG, "Recurring alarm; receiver.");
         // start the download
 //        Intent login = new Intent(context, SCLoginScreen.class);
 //        login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 

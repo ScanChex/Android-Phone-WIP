@@ -1,10 +1,13 @@
 package com.scanchex.bo;
 
-public class SCDocumentInfo {
+public class SCDocumentInfo implements Item{
 
 	public String documentSubject;
 	public String documentUrl;
 	public boolean fillable;
+	public String status;
+	public String document_id;
+	public String version;
 	public SCDocumentInfo() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -26,6 +29,29 @@ public class SCDocumentInfo {
 	}
 	public void setFillable(boolean fillable) {
 		this.fillable = fillable;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getDocument_id() {
+		return document_id;
+	}
+	public void setDocument_id(String document_id) {
+		this.document_id = document_id;
+	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
+	@Override
+	public boolean isSection() {
+		return false;
 	}
 	
 	

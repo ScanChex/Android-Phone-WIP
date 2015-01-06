@@ -49,6 +49,8 @@ public class Resources {
 	private int totalCheckPointScans =0;
 	private boolean isForDoubleScan;
 	private boolean isQuestionsSubmitted = false;
+	private boolean isDocumentsCompleted = false;
+	
 	private boolean isFirstScanDone = false;
 	private boolean isCheckPointDone = false;
 	private boolean isCheckPointScan;
@@ -311,6 +313,15 @@ public class Resources {
 	public void setFromBackground(boolean fromBackground) {
 		this.fromBackground = fromBackground;
 	}
+
+	public boolean isDocumentsCompleted() {
+		return isDocumentsCompleted;
+	}
+
+	public void setDocumentsCompleted(boolean isDocumentsCompleted) {
+		this.isDocumentsCompleted = isDocumentsCompleted;
+	}
+	
 	
 	
 }

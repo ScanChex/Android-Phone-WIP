@@ -211,6 +211,7 @@
                     android:paddingRight="0dp"
                     android:text="June 09, 2013"
                     android:textColor="@color/black"
+                    android:textStyle="bold" 
                     android:textSize="10sp" />
 
                 <TextView
@@ -315,6 +316,11 @@
                 android:layout_alignParentTop="true"
                 android:background="@drawable/excalamation_icon" />
         </RelativeLayout>
+        
+          <RelativeLayout
+            style="@style/detailTabLayout"
+            android:layout_width="70dp"
+            android:layout_height="42dp" >
 
         <Button
             android:id="@+id/documentsId"
@@ -324,6 +330,15 @@
             android:onClick="onDocumentsClick"
              android:textStyle="bold"
             android:text="Documents" />
+        
+          <ImageView
+                android:id="@+id/document_status_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/excalamation_icon" />
+          </RelativeLayout>
 
         <Button
             android:id="@+id/historyId"

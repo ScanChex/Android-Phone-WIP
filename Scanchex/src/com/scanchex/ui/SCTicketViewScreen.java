@@ -1,6 +1,7 @@
 package com.scanchex.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -353,7 +354,11 @@ public class SCTicketViewScreen extends ListActivity implements
 													.getString("no_of_scans"));
 									assetTicketInfo.ticketIsService = ticketObj
 											.getString("is_service");
+									assetTicketInfo.is_fillable_docs = ticketObj
+											.getString("is_fillable_docs");
+								
 									vector.add(assetTicketInfo);
+									Collections.sort(vector);
 									Resources.getResources()
 											.setAssetsTicketData(vector);
 									adapter.setAssetTicetData(vector);

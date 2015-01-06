@@ -10,7 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.scanchex.bo.Item;
 import com.scanchex.bo.SCDocumentInfo;
+import com.scanchex.bo.SectionItem;
 import com.scanchex.ui.R;
 
 public class SCDocumentsListAdapter extends BaseAdapter {
@@ -53,6 +55,8 @@ public class SCDocumentsListAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.sc_documents_row, null);
 			holder = new ViewHolder();
 			holder.textView1 = (TextView) convertView.findViewById(R.id.text1);
+			holder.documentStatus = (TextView) convertView.findViewById(R.id.status1);
+			
 			holder.documentIconView = (ImageView) convertView
 					.findViewById(R.id.documentIconId);
 
@@ -116,6 +120,13 @@ public class SCDocumentsListAdapter extends BaseAdapter {
 		}
 
 		holder.textView1.setText(dInfo.documentSubject);
+		if ( dInfo.status == "hold" ) {
+		holder.documentStatus.setText("(Hold)");
+		holder.documentIconView.setImageResource(R.drawable.pdfonhold);
+		} else {
+			holder.documentStatus.setText("");
+		}
+			
 		return convertView;
 	}
 	
@@ -123,6 +134,7 @@ public class SCDocumentsListAdapter extends BaseAdapter {
 	class ViewHolder {
 		
 		TextView textView1;
+		TextView documentStatus;
 		ImageView documentIconView;
 
 	}

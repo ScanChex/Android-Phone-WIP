@@ -156,8 +156,6 @@ public class ScPaymentScreen extends BaseActivity {
 
 		}
 	}
-	
-	 
 
 	public void onCLickChecque(View v) {
 		payment_type = "cheque";
