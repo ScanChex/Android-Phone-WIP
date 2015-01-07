@@ -150,14 +150,14 @@ public class SCTicketsAdapter extends BaseAdapter {
 					.getColor(R.color.pending));
 			holder.ticketStatusIcon.setVisibility(View.VISIBLE);
 			holder.ticketStatusIcon
-					.setBackgroundResource(R.drawable.lightning_image);
+					.setBackgroundResource(R.drawable.excalamation_icon);
 		} else if (tInfo.ticketStatus.equalsIgnoreCase("suspended")) {
 
 			holder.layout.setBackgroundColor(this.context.getResources()
 					.getColor(R.color.suspended));
 			holder.ticketStatusIcon.setVisibility(View.VISIBLE);
 			holder.ticketStatusIcon
-					.setBackgroundResource(R.drawable.lightning_image);
+					.setBackgroundResource(R.drawable.excalamation_icon);
 			holder.onHoldLabel.setVisibility(View.VISIBLE);
 			holder.empName.setVisibility(View.VISIBLE);
 			

@@ -785,11 +785,13 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 		if (tInfo.notes.equalsIgnoreCase("")
 				|| tInfo.notes.equalsIgnoreCase(null)) {
 			messageText.setText("---");
-			messageText.setBackgroundResource(R.drawable.messgae_dialog_corner);
+			//messageText.setBackgroundResource(R.drawable.messgae_dialog_corner);
 		} else {
 			messageText.setText(tInfo.notes);
 			noteTab.setTextColor(this.getResources().getColor(R.color.white));
+			if (Resources.getResources().isFirstScanDone()) {
 			notesstatusicon.setBackgroundResource(R.drawable.accept_ticket);
+			}
 		
 		}
 		Button cancel = (Button) dialog.findViewById(R.id.buttonCancel);

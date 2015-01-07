@@ -44,17 +44,17 @@
        
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" 
             android:layout_marginBottom="10dp">
 
             <Button
                 android:id="@+id/buttonCancel"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="#dedede"
+                android:layout_gravity="center"
+                android:background="#ffdede"
                 android:text="Ok"
                 android:textColor="@drawable/btn_send_message_selector" />
 

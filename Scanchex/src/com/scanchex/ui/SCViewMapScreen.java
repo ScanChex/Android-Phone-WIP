@@ -467,10 +467,12 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 	 //           	CameraPosition cameraPosition = new CameraPosition.Builder()
 	//				.target(latLng).zoom(10).build();
 	            	  LatLngBounds bounds = bld.build();
-	                  int padding = 10; // offset from edges of the map in pixels
+	                  int padding = 3; // offset from edges of the map in pixels
 	                  CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 	                  map.moveCamera(cu);
-	                  map.animateCamera(cu);
+	                //  map.animateCamera(cu);
+	                  map.animateCamera(CameraUpdateFactory.zoomTo(11));
+
 	            	}
 //			map.animateCamera(CameraUpdateFactory
 //					.newCameraPosition(cameraPosition));

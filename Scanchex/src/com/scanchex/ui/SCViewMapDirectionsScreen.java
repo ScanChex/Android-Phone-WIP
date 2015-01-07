@@ -192,7 +192,7 @@ public class SCViewMapDirectionsScreen extends FragmentActivity implements
 
 		mapView.setMyLocationEnabled(true);
 		mapView.moveCamera(CameraUpdateFactory.newLatLng(startLatLng));
-		mapView.animateCamera(CameraUpdateFactory.zoomTo(9));
+		mapView.animateCamera(CameraUpdateFactory.zoomTo(10));
 
 		String urlTopass = makeURL(startLatLng.latitude, startLatLng.longitude,
 				endLatLng.latitude, endLatLng.longitude);
