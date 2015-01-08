@@ -74,7 +74,7 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 		Resources.getResources().setAssetsTicketData(null);
 		adapter = new SCTicketsAdapter(this, Resources.getResources().getAssetsTicketData());
 		listView.setAdapter(adapter);
-		new AssetTicketTask().execute(CONSTANTS.BASE_URL);
+		//new AssetTicketTask().execute(CONSTANTS.BASE_URL);
 		
 		
 		locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
@@ -470,9 +470,12 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 	                  int padding = 3; // offset from edges of the map in pixels
 	                  CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 	                  map.moveCamera(cu);
-	                //  map.animateCamera(cu);
-	                  map.animateCamera(CameraUpdateFactory.zoomTo(11));
+	            //      map.moveCamera(cu);
+	                  float zoom = map.getCameraPosition().zoom;
+	                  
+	         	      map.moveCamera(CameraUpdateFactory.zoomTo(zoom-1.0f));
 
+	             
 	            	}
 //			map.animateCamera(CameraUpdateFactory
 //					.newCameraPosition(cameraPosition));
@@ -533,14 +536,14 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+", \n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+", \n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.checkered32)));
 			} else if (overdue.equals("1")) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
 			
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fred_flag_32)));
@@ -548,21 +551,21 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fblue_flag_32)));
 			} else if (status.equals("pending")) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fyellow_flag32)));
 			} else if (status.equals("Current") && (pdates.after(pdate))  ) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fgreen_flag_32)));
 			}

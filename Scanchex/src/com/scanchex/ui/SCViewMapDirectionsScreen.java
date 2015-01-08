@@ -449,7 +449,8 @@ public class SCViewMapDirectionsScreen extends FragmentActivity implements
 		if (line != null) {
 			mapView.clear();
 		}
-		mapView.addMarker(new MarkerOptions().position(endLatLng).icon(
+		mapView.addMarker(new MarkerOptions().position(endLatLng).title(tInfo.assetClientName+"\n"+tInfo.ticketId+"\n"+tInfo.addressCity+", "+tInfo.addressState+", \n"+tInfo.assetDescription)
+				.icon(
 				BitmapDescriptorFactory
 						.fromResource(R.drawable.other_locations)));
 		mapView.addMarker(new MarkerOptions().position(startLatLng).icon(
@@ -484,7 +485,11 @@ public class SCViewMapDirectionsScreen extends FragmentActivity implements
                   int padding = 0; // offset from edges of the map in pixels
                   CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
                   mapView.moveCamera(cu);
-                  mapView.animateCamera(cu);
+                //  mapView.animateCamera(cu);
+                  float zoom = mapView.getCameraPosition().zoom;
+	               
+                  mapView.animateCamera(CameraUpdateFactory.zoomTo(zoom-1.0f));
+
 //				CameraPosition cameraPosition = new CameraPosition.Builder()
 //				.target(startLatLng).zoom(13).build();
 
