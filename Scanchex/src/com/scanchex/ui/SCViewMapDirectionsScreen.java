@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -449,12 +450,35 @@ public class SCViewMapDirectionsScreen extends FragmentActivity implements
 		if (line != null) {
 			mapView.clear();
 		}
-		mapView.addMarker(new MarkerOptions().position(endLatLng).title(tInfo.assetClientName+"\n"+tInfo.ticketId+"\n"+tInfo.addressCity+", "+tInfo.addressState+", \n"+tInfo.assetDescription)
+		
+		
+		mapView.addMarker(new MarkerOptions().position(endLatLng).title(tInfo.assetClientName+"\n"+tInfo.ticketId+"\n"+tInfo.addressCity+", "+tInfo.addressState+"\n"+tInfo.assetDescription)
 				.icon(
 				BitmapDescriptorFactory
 						.fromResource(R.drawable.other_locations)));
 		mapView.addMarker(new MarkerOptions().position(startLatLng).icon(
 				BitmapDescriptorFactory.fromResource(R.drawable.my_location)));
+		
+		mapView.setInfoWindowAdapter(new InfoWindowAdapter() {
+
+	        @Override
+	        public View getInfoWindow(Marker arg0) {
+	            return null;
+	        }
+
+	        @Override
+	        public View getInfoContents(Marker marker) {
+
+	            View v = getLayoutInflater().inflate(R.layout.marker, null);
+
+	            TextView info= (TextView) v.findViewById(R.id.info);
+
+	            info.setText(marker.getTitle());
+
+	            return v;
+	        }
+	    });
+		
 		try {
 			// Tranform the string into a json object
 			final JSONObject json = new JSONObject(result);

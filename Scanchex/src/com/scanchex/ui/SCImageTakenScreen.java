@@ -39,13 +39,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Config;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -143,6 +149,71 @@ public class SCImageTakenScreen extends BaseActivity{
 				Log.i("IMAGE URL", "<>GALLERY<> "+ selectedImagePath);
 				File imageFile = new File(selectedImagePath);
 				Bitmap bm = decodeFile(imageFile, getCameraPhotoOrientation(this, selectedImageUri, selectedImagePath));
+			     android.graphics.Bitmap.Config config = bm.getConfig();
+			        int width = bm.getWidth();
+			        int height = bm.getHeight();
+			        
+			        Rect bounds = new Rect();
+
+			        Bitmap newImage = Bitmap.createBitmap(width, height, config);
+                Canvas c = new Canvas(newImage);
+		        c.drawBitmap(bm, 0, 0, null);
+
+		        Paint paint = new Paint();
+		        paint.setColor(Color.WHITE); 
+		        paint.setStyle(Style.FILL);                
+		        paint.setTextSize(20);
+		      	String[] parts = tInfo.assetTechnician.split("-");
+		    	String EmployeeName = parts[1];
+		    	String currentDate   = new SimpleDateFormat("MMM-dd-yyyy HH:mm:ss").format(new Date());
+		        String text1 = "TICKET ID: ";
+			    
+		    	paint.getTextBounds(text1, 0, text1.length(), bounds);
+
+		       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
+		        		  //     "Date & Time taken: "+currentDate+"\n"+
+		        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
+		        c.drawText(text1 , width-bounds.width()-5, height-175, paint);
+		    	paint.getTextBounds(tInfo.ticketId, 0, tInfo.ticketId.length(), bounds);
+
+		        c.drawText(tInfo.ticketId , width-bounds.width()-5, height-150, paint);
+		        
+		        text1 = "DATE & TIME : ";
+		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+		        c.drawText(text1, width-bounds.width()-5, height-125, paint);
+		       	paint.getTextBounds(currentDate, 0, currentDate.length(), bounds);
+
+			    c.drawText(currentDate, width-bounds.width()-5, height-100, paint);
+			    
+			    text1 = "EMPLOYEE: ";
+			     
+			   	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			    
+		        c.drawText(text1, width-bounds.width(), height-75, paint);
+		       	paint.getTextBounds(EmployeeName, 0, EmployeeName.length(), bounds);
+
+		        c.drawText(EmployeeName, width-bounds.width()-5, height-50, paint);
+		        
+//		        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scan_chexs_logo);
+//		        Rect source = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//		        Rect bitmapRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//		      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
+		        text1 = "© ScanChex, Inc";
+				 
+		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			    
+		        c.drawText(text1, width-bounds.width()-5, height-25, paint);
+			
+		        try {
+		        FileOutputStream fOut = new FileOutputStream(selectedImagePath);
+                newImage.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+		        fOut.flush();
+		        fOut.close();
+		        } catch (FileNotFoundException e) {
+			    	e.printStackTrace();
+			    }	catch(IOException e){
+			    	e.printStackTrace();
+			    }
 				/*try {
 	                // We need to recyle unused bitmaps
 					BitmapFactory.Options options=new BitmapFactory.Options();
@@ -168,6 +239,74 @@ public class SCImageTakenScreen extends BaseActivity{
 				Log.i("IMAGE URL", "<>CAMERA<> "+ selectedImagePath);
 				File imageFile = new File(selectedImagePath);
 				Bitmap bm = decodeFile(imageFile, getCameraPhotoOrientation(this, selectedImageUri, selectedImagePath));
+				
+				  android.graphics.Bitmap.Config config = bm.getConfig();
+			        int width = bm.getWidth();
+			        int height = bm.getHeight();
+			        
+			        Rect bounds = new Rect();
+
+			        Bitmap newImage = Bitmap.createBitmap(width, height, config);
+              Canvas c = new Canvas(newImage);
+		        c.drawBitmap(bm, 0, 0, null);
+
+		        Paint paint = new Paint();
+		        paint.setColor(Color.WHITE); 
+		        paint.setStyle(Style.FILL);                
+		        paint.setTextSize(20);
+		      	String[] parts = tInfo.assetTechnician.split("-");
+		    	String EmployeeName = parts[1];
+		    	String currentDate   = new SimpleDateFormat("MMM-dd-yyyy HH:mm:ss").format(new Date());
+		        String text1 = "TICKET ID: ";
+			    
+		    	paint.getTextBounds(text1, 0, text1.length(), bounds);
+
+		       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
+		        		  //     "Date & Time taken: "+currentDate+"\n"+
+		        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
+		        c.drawText(text1 , width-bounds.width()-5, height-175, paint);
+		    	paint.getTextBounds(tInfo.ticketId, 0, tInfo.ticketId.length(), bounds);
+
+		        c.drawText(tInfo.ticketId , width-bounds.width()-5, height-150, paint);
+		        
+		        text1 = "DATE & TIME : ";
+		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+		        c.drawText(text1, width-bounds.width()-5, height-125, paint);
+		       	paint.getTextBounds(currentDate, 0, currentDate.length(), bounds);
+
+			    c.drawText(currentDate, width-bounds.width()-5, height-100, paint);
+			    
+			    text1 = "EMPLOYEE: ";
+			     
+			   	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			    
+		        c.drawText(text1, width-bounds.width(), height-75, paint);
+		       	paint.getTextBounds(EmployeeName, 0, EmployeeName.length(), bounds);
+
+		        c.drawText(EmployeeName, width-bounds.width()-5, height-50, paint);
+		        
+//		        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scan_chexs_logo);
+//		        Rect source = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//		        Rect bitmapRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//		      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
+		        text1 = "© ScanChex, Inc";
+				 
+		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			    
+		        c.drawText(text1, width-bounds.width()-5, height-25, paint);
+			
+			        try {
+		        
+		        FileOutputStream fOut = new FileOutputStream(selectedImagePath);
+
+		        newImage.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+		        fOut.flush();
+		        fOut.close();
+		        } catch (FileNotFoundException e) {
+			    	e.printStackTrace();
+			    }	catch(IOException e){
+			    	e.printStackTrace();
+			    }
 			}
 			}
 			if(selectedImagePath!=null && selectedImagePath.length()>0){

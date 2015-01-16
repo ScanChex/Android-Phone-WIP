@@ -29,12 +29,14 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -74,7 +76,7 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 		Resources.getResources().setAssetsTicketData(null);
 		adapter = new SCTicketsAdapter(this, Resources.getResources().getAssetsTicketData());
 		listView.setAdapter(adapter);
-		//new AssetTicketTask().execute(CONSTANTS.BASE_URL);
+		new AssetTicketTask().execute(CONSTANTS.BASE_URL);
 		
 		
 		locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
@@ -115,7 +117,6 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 	    protected void onResume() {
 	        super.onResume();
 	        locManager.requestLocationUpdates(provider, 10000, 1, this);
-	    	new AssetTicketTask().execute(CONSTANTS.BASE_URL);
 	    	
 	    }
 
@@ -427,7 +428,7 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			super.onPostExecute(result);
+			//super.onPostExecute(result);
 			pdialog.dismiss();
 			adapter.notifyDataSetChanged();
 			setupMaps();
@@ -448,12 +449,13 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 		map.getUiSettings().setZoomControlsEnabled(true); 
 	    addMarkersToMap();
 	    final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
-	        mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-	            @SuppressLint("NewApi")
-	            // We check which build version we are using.
-	            LatLng latLng = new LatLng(latitude, longitude);
-	            @Override
-	            public void onGlobalLayout() { 
+//	        mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+//	            @SuppressLint("NewApi")
+//	            // We check which build version we are using.
+//	            LatLng latLng = new LatLng(latitude, longitude);
+//	            @Override
+//	            public void onGlobalLayout() { 
+	    LatLng latLng;
 	            	LatLngBounds.Builder bld = new LatLngBounds.Builder();
 	            	Vector<AssetsTicketsInfo> v = Resources.getResources().getAssetsTicketData();
 	            	if ( !isEmpty(v)) {
@@ -473,15 +475,15 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 	            //      map.moveCamera(cu);
 	                  float zoom = map.getCameraPosition().zoom;
 	                  
-	         	      map.moveCamera(CameraUpdateFactory.zoomTo(zoom-1.0f));
+	         	      map.animateCamera(CameraUpdateFactory.zoomTo(zoom-1.0f));
 
 	             
 	            	}
 //			map.animateCamera(CameraUpdateFactory
 //					.newCameraPosition(cameraPosition));
 //	                mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-	            }
-	        });
+	          //  }
+	       // });
 //	    }
 	}
 	
@@ -531,19 +533,39 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 			LatLng latLng = new LatLng(
 					Double.parseDouble(atInfo.assetlatitude),
 					Double.parseDouble(atInfo.assetLongitude));
+			
+			map.setInfoWindowAdapter(new InfoWindowAdapter() {
+
+		        @Override
+		        public View getInfoWindow(Marker arg0) {
+		            return null;
+		        }
+
+		        @Override
+		        public View getInfoContents(Marker marker) {
+
+		            View v = getLayoutInflater().inflate(R.layout.marker, null);
+
+		            TextView info= (TextView) v.findViewById(R.id.info);
+
+		            info.setText(marker.getTitle());
+
+		            return v;
+		        }
+		    });
 
 			if (status.equals("Completed")) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+", \n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+"\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.checkered32)));
 			} else if (overdue.equals("1")) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+"\n"+atInfo.assetDescription)
 			
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fred_flag_32)));
@@ -551,21 +573,21 @@ public class SCViewMapScreen extends FragmentActivity implements LocationListene
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+"\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fblue_flag_32)));
 			} else if (status.equals("pending")) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+"\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fyellow_flag32)));
 			} else if (status.equals("Current") && (pdates.after(pdate))  ) {
 
 				map.addMarker(new MarkerOptions()
 						.position(latLng)
-						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+",\n"+atInfo.assetDescription)
+						.title(atInfo.assetClientName+"\n"+atInfo.ticketId+"\n"+atInfo.addressCity+", "+atInfo.addressState+"\n"+atInfo.assetDescription)
 						.icon(BitmapDescriptorFactory
 								.fromResource(R.drawable.fgreen_flag_32)));
 			}
