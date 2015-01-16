@@ -45,6 +45,9 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -73,6 +76,10 @@ public class SCImageTakenScreen extends BaseActivity{
 	private static final String IMAGE_DIRECTORY_NAME = "ScanChex";
 	private TextView tickectId;
 	private AssetsTicketsInfo tInfo;
+	private LocationManager locManager;
+	private double longitude;
+	private double latitude;
+	private String provider;
 
 
 	@Override
@@ -89,6 +96,18 @@ public class SCImageTakenScreen extends BaseActivity{
 				.getColor(SCImageTakenScreen.this)));
 
 		selectedImagePath = "";
+		
+
+		locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
+        Criteria criteria = new Criteria();
+         provider = locManager.getBestProvider(criteria, false);
+        Location location = locManager.getLastKnownLocation(provider);
+        if(location != null){
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            Log.i("LOCATION LAT>>"+latitude,"Longitute" +longitude);
+            
+        }
 	}
 	
 	  @Override
@@ -162,47 +181,77 @@ public class SCImageTakenScreen extends BaseActivity{
 		        Paint paint = new Paint();
 		        paint.setColor(Color.WHITE); 
 		        paint.setStyle(Style.FILL);                
-		        paint.setTextSize(20);
+		        paint.setTextSize(8);
+		        paint.setFakeBoldText(false);
 		      	String[] parts = tInfo.assetTechnician.split("-");
 		    	String EmployeeName = parts[1];
 		    	String currentDate   = new SimpleDateFormat("MMM-dd-yyyy HH:mm:ss").format(new Date());
-		        String text1 = "TICKET ID: ";
+		        String text1 = "TICKET ID ";
 			    
 		    	paint.getTextBounds(text1, 0, text1.length(), bounds);
 
 		       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
 		        		  //     "Date & Time taken: "+currentDate+"\n"+
 		        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
-		        c.drawText(text1 , width-bounds.width()-5, height-175, paint);
-		    	paint.getTextBounds(tInfo.ticketId, 0, tInfo.ticketId.length(), bounds);
+		    	  c.drawText(text1 , width-bounds.width()-10, height-155, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+				     
+			    	paint.getTextBounds(tInfo.ticketId, 0, tInfo.ticketId.length(), bounds);
 
-		        c.drawText(tInfo.ticketId , width-bounds.width()-5, height-150, paint);
-		        
-		        text1 = "DATE & TIME : ";
-		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
-		        c.drawText(text1, width-bounds.width()-5, height-125, paint);
-		       	paint.getTextBounds(currentDate, 0, currentDate.length(), bounds);
+			        c.drawText(tInfo.ticketId , width-bounds.width()-10, height-140, paint);
+			        paint.setTextSize(8);
+			        paint.setFakeBoldText(false);
+					   
+				     
+			        text1 = "DATE & TIME ";
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			        c.drawText(text1, width-bounds.width()-10, height-125, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+					 
+			       	paint.getTextBounds(currentDate, 0, currentDate.length(), bounds);
 
-			    c.drawText(currentDate, width-bounds.width()-5, height-100, paint);
-			    
-			    text1 = "EMPLOYEE: ";
-			     
-			   	paint.getTextBounds(text1, 0, text1.length(), bounds);
-			    
-		        c.drawText(text1, width-bounds.width(), height-75, paint);
-		       	paint.getTextBounds(EmployeeName, 0, EmployeeName.length(), bounds);
+				    c.drawText(currentDate, width-bounds.width()-10, height-110, paint);
+				    
+				    paint.setTextSize(8);
+				    paint.setFakeBoldText(false);
+				     
+			        text1 = "LAT/LON ";
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			        c.drawText(text1, width-bounds.width()-10, height-95, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+			        text1 =String.format("%.4f/%.4f", latitude, longitude);
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
 
-		        c.drawText(EmployeeName, width-bounds.width()-5, height-50, paint);
-		        
-//		        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scan_chexs_logo);
-//		        Rect source = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-//		        Rect bitmapRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-//		      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
-		        text1 = "© ScanChex, Inc";
-				 
-		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
-			    
-		        c.drawText(text1, width-bounds.width()-5, height-25, paint);
+				    c.drawText(text1, width-bounds.width()-10, height-80, paint);
+				    
+				    paint.setTextSize(8);
+				    paint.setFakeBoldText(false);
+				     
+				    text1 = "EMPLOYEE ";
+				     
+				   	paint.getTextBounds(text1, 0, text1.length(), bounds);
+				    
+			        c.drawText(text1, width-bounds.width()-10, height-65, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+			       	paint.getTextBounds(EmployeeName, 0, EmployeeName.length(), bounds);
+
+			        c.drawText(EmployeeName, width-bounds.width()-10, height-50, paint);
+			        
+//			        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scan_chexs_logo);
+//			        Rect source = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//			        Rect bitmapRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//			      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
+			        paint.setTextSize(6);
+				     
+			        text1 = "© ScanChex, Inc";
+					 
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+				    
+			        c.drawText(text1, width-bounds.width()-10, height-25, paint);
 			
 		        try {
 		        FileOutputStream fOut = new FileOutputStream(selectedImagePath);
@@ -257,43 +306,72 @@ public class SCImageTakenScreen extends BaseActivity{
 		      	String[] parts = tInfo.assetTechnician.split("-");
 		    	String EmployeeName = parts[1];
 		    	String currentDate   = new SimpleDateFormat("MMM-dd-yyyy HH:mm:ss").format(new Date());
-		        String text1 = "TICKET ID: ";
-			    
-		    	paint.getTextBounds(text1, 0, text1.length(), bounds);
+		    	 String text1 = "TICKET ID ";
+				    
+			    	paint.getTextBounds(text1, 0, text1.length(), bounds);
 
-		       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
-		        		  //     "Date & Time taken: "+currentDate+"\n"+
-		        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
-		        c.drawText(text1 , width-bounds.width()-5, height-175, paint);
-		    	paint.getTextBounds(tInfo.ticketId, 0, tInfo.ticketId.length(), bounds);
+			       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
+			        		  //     "Date & Time taken: "+currentDate+"\n"+
+			        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
+			        c.drawText(text1 , width-bounds.width()-10, height-155, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+				     
+			    	paint.getTextBounds(tInfo.ticketId, 0, tInfo.ticketId.length(), bounds);
 
-		        c.drawText(tInfo.ticketId , width-bounds.width()-5, height-150, paint);
-		        
-		        text1 = "DATE & TIME : ";
-		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
-		        c.drawText(text1, width-bounds.width()-5, height-125, paint);
-		       	paint.getTextBounds(currentDate, 0, currentDate.length(), bounds);
+			        c.drawText(tInfo.ticketId , width-bounds.width()-10, height-140, paint);
+			        paint.setTextSize(8);
+			        paint.setFakeBoldText(false);
+					   
+				     
+			        text1 = "DATE & TIME ";
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			        c.drawText(text1, width-bounds.width()-10, height-125, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+					 
+			       	paint.getTextBounds(currentDate, 0, currentDate.length(), bounds);
 
-			    c.drawText(currentDate, width-bounds.width()-5, height-100, paint);
-			    
-			    text1 = "EMPLOYEE: ";
-			     
-			   	paint.getTextBounds(text1, 0, text1.length(), bounds);
-			    
-		        c.drawText(text1, width-bounds.width(), height-75, paint);
-		       	paint.getTextBounds(EmployeeName, 0, EmployeeName.length(), bounds);
+				    c.drawText(currentDate, width-bounds.width()-10, height-110, paint);
+				    
+				    paint.setTextSize(8);
+				    paint.setFakeBoldText(false);
+				     
+			        text1 = "LAT/LON ";
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+			        c.drawText(text1, width-bounds.width()-10, height-95, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+			        text1 =String.format("%.4f/%.4f", latitude, longitude);
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
 
-		        c.drawText(EmployeeName, width-bounds.width()-5, height-50, paint);
-		        
-//		        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scan_chexs_logo);
-//		        Rect source = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-//		        Rect bitmapRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-//		      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
-		        text1 = "© ScanChex, Inc";
-				 
-		       	paint.getTextBounds(text1, 0, text1.length(), bounds);
-			    
-		        c.drawText(text1, width-bounds.width()-5, height-25, paint);
+				    c.drawText(text1, width-bounds.width()-10, height-80, paint);
+				    
+				    paint.setTextSize(8);
+				    paint.setFakeBoldText(false);
+				     
+				    text1 = "EMPLOYEE ";
+				     
+				   	paint.getTextBounds(text1, 0, text1.length(), bounds);
+				    
+			        c.drawText(text1, width-bounds.width()-10, height-65, paint);
+			        paint.setTextSize(10);
+			        paint.setFakeBoldText(true);
+			       	paint.getTextBounds(EmployeeName, 0, EmployeeName.length(), bounds);
+
+			        c.drawText(EmployeeName, width-bounds.width()-10, height-50, paint);
+			        
+//			        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.scan_chexs_logo);
+//			        Rect source = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//			        Rect bitmapRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+//			      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
+			        paint.setTextSize(6);
+				     
+			        text1 = "© ScanChex, Inc";
+					 
+			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
+				    
+			        c.drawText(text1, width-bounds.width()-10, height-25, paint);
 			
 			        try {
 		        
