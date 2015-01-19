@@ -71,6 +71,7 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 	Button assetTab, questionTab, documentTab, historyTab, noteTab;
 	GPSTracker gps;
 	public static String historyid = "", curTime, curTime1;
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -87,6 +88,14 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 		ticketStatusIcon = (ImageView) findViewById(R.id.ticket_status_icon);
 		questionstatusicon = (ImageView) findViewById(R.id.question_status_icon);
 		documentstatusicon = (ImageView) findViewById(R.id.document_status_icon);
+		 companylogoImg = (ImageView) findViewById(R.id.logo);
+	        
+       Picasso.with(SCDetailsFragmentScreen.this) //
+		.load(SCPreferences.getCompanyLogo(SCDetailsFragmentScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
+		
 		
 		
 		clientName = (TextView) findViewById(R.id.text1);

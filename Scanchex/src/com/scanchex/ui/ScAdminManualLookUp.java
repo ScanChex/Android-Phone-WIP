@@ -45,6 +45,7 @@ public class ScAdminManualLookUp extends BaseActivity {
 	TextView textViewAssetDescription, textViewClient;
 	Context mContext;
 	JSONObject jsonObject;
+	private ImageView companylogoImg;
 
 	ArrayList<ScAdminManualLookModel> clientArrayList;
 	ArrayList<ScAdminManualLookModel> assetArrayList;
@@ -71,6 +72,13 @@ public class ScAdminManualLookUp extends BaseActivity {
 		editViewSerialNumber = (EditText) findViewById(R.id.editViewSerialNumber);
 		editTextAddress = (EditText) findViewById(R.id.spinnerViewAddress);
 		editTextDepartment = (EditText) findViewById(R.id.spinnerViewDepartment);
+		 companylogoImg = (ImageView) findViewById(R.id.logo);
+	        
+	       Picasso.with(ScAdminManualLookUp.this) //
+			.load(SCPreferences.getCompanyLogo(ScAdminManualLookUp.this)) //
+			.placeholder(R.drawable.scan_chexs_logo) //
+			.error(R.drawable.scan_chexs_logo) //
+			.into(companylogoImg);
 
 		// Intialize Array
 		clientArrayList = new ArrayList<ScAdminManualLookModel>();

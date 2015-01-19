@@ -54,6 +54,7 @@ public class SCAdminMainMenuScreen extends BaseActivity implements OnClickListen
 
 	String selectetdVal = "";
 	SpinnerSearchAdapter adapter;
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,13 @@ public class SCAdminMainMenuScreen extends BaseActivity implements OnClickListen
 		employeeName = (TextView) findViewById(R.id.mainmenu_employeename_text);
 		employeeName.setText(getIntent().getExtras().getString("NAME"));
 		userName = (Button) findViewById(R.id.registerbutton);
+        companylogoImg = (ImageView)findViewById(R.id.logoTop);
+		
+		Picasso.with(SCAdminMainMenuScreen.this) //
+		.load(SCPreferences.getCompanyLogo(SCAdminMainMenuScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
 		userName.setOnClickListener(this);
 		String url = SCPreferences.getPreferences().getClientLogo(
 				SCAdminMainMenuScreen.this);

@@ -18,6 +18,7 @@ import com.scanchex.network.HttpWorker;
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
+import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -29,6 +30,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ public class ScAdminTodaycheckout extends ListActivity {
 	String asset_id;
 	String title_string;
 	TextView title_view;
+	private ImageView companylogoImg;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +51,13 @@ public class ScAdminTodaycheckout extends ListActivity {
 
 		listView = (ListView) findViewById(android.R.id.list);
 		title_view = (TextView) findViewById(R.id.title_textview);
+		companylogoImg = (ImageView)findViewById(R.id.logo);
+		
+		Picasso.with(ScAdminTodaycheckout.this) //
+		.load(SCPreferences.getCompanyLogo(ScAdminTodaycheckout.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
 		mContext = this;
 		vector = new Vector<AssetsTicketsInfo>();
 		adapter = new SCAdminCheckinTicketsAdapter(this, vector);

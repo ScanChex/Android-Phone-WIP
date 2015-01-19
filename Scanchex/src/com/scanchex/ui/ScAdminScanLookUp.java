@@ -64,6 +64,7 @@ public class ScAdminScanLookUp extends BaseActivity {
 	String status = "";
 	String clientid = "";
 	EditText editViewSerialNumber;
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,13 @@ public class ScAdminScanLookUp extends BaseActivity {
 		editTextAddress = (EditText) findViewById(R.id.editTextAddress);
 		editTextDepartment = (EditText) findViewById(R.id.editTextDepartment);
 		buttonTitle = (Button) findViewById(R.id.button2);
+		 companylogoImg = (ImageView) findViewById(R.id.logo);
+	        
+	       Picasso.with(ScAdminScanLookUp.this) //
+			.load(SCPreferences.getCompanyLogo(ScAdminScanLookUp.this)) //
+			.placeholder(R.drawable.scan_chexs_logo) //
+			.error(R.drawable.scan_chexs_logo) //
+			.into(companylogoImg);
 		buttonTitle.setText("SCAN LOOK UP");
 
 		// get extra from ScAdminManualLookup
