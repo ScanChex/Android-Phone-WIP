@@ -35,6 +35,7 @@ import com.scanchex.network.HttpWorker;
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
+import com.squareup.picasso.Picasso;
 
 public class SCTicketViewScreen extends ListActivity implements
 		OnItemLongClickListener {
@@ -43,6 +44,7 @@ public class SCTicketViewScreen extends ListActivity implements
 	ListView listView;
 	private TextView noMessageText;
 	private ImageView newMessageIcon;
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,14 @@ public class SCTicketViewScreen extends ListActivity implements
 		Resources.getResources().setAssetsTicketData(null);
 		noMessageText = (TextView) findViewById(R.id.nonew_message);
 		newMessageIcon = (ImageView) findViewById(R.id.push_icon);
+		companylogoImg = (ImageView)findViewById(R.id.logo);
+		
+		Picasso.with(SCTicketViewScreen.this) //
+		.load(SCPreferences.getCompanyLogo(SCTicketViewScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
+		
 		adapter = new SCTicketsAdapter(this, Resources.getResources()
 				.getAssetsTicketData());
 		setListAdapter(adapter);

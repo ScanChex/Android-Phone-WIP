@@ -68,6 +68,7 @@ public class SCAssetsFragment extends Fragment implements OnClickListener {
 	ArrayList<Item> items = new ArrayList<Item>();
 	int scanArraySize = 0;
 	String reasonvalue, curTime, ticketStatus, objvalue;
+	private ImageView companylogoImg;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,14 @@ public class SCAssetsFragment extends Fragment implements OnClickListener {
 		ScanTicketButton = (Button) view.findViewById(R.id.scan_button);
 		SuspendTickectButton = (Button) view.findViewById(R.id.suspend_button);
 		checkList = (ListView) view.findViewById(R.id.checkList);
+        companylogoImg = (ImageView)view.findViewById(R.id.logo);
+		
+//		Picasso.with(view.getContext()) //
+//		.load(SCPreferences.getCompanyLogo(view.getContext())) //
+//		.placeholder(R.drawable.scan_chexs_logo) //
+//		.error(R.drawable.scan_chexs_logo) //
+//		.into(companylogoImg);
+		
 		assetId.setText(tInfo.assetUNAssetId);
 		assetDescription.setText(tInfo.assetDescription);
 		assetAddress.setText(tInfo.addressStreet + "\n" + tInfo.addressCity

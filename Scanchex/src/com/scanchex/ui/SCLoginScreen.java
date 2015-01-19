@@ -1,10 +1,17 @@
 package com.scanchex.ui;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -13,6 +20,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint.Join;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +29,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -27,6 +37,7 @@ import com.scanchex.network.HttpWorker;
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
+import com.squareup.picasso.Picasso;
 
 public class SCLoginScreen extends BaseActivity{
 
@@ -34,6 +45,7 @@ public class SCLoginScreen extends BaseActivity{
 	private EditText cId;
 	private EditText username;
 	private EditText password;
+	private ImageView companylogoImg;
 	String IMEI ;
 	
 	String loginresponse ;
@@ -50,6 +62,8 @@ public class SCLoginScreen extends BaseActivity{
 		cId = (EditText)findViewById(R.id.login_companyid_edittext);
 		username = (EditText)findViewById(R.id.login_username_edittext);
 		password = (EditText)findViewById(R.id.login_password_edittext);
+		companylogoImg = (ImageView)findViewById(R.id.logo);
+		
 		
 		cId.setText(SCPreferences.getPreferences().getCompanyId(this));
 		username.setText(SCPreferences.getPreferences().getUserName(this));
@@ -125,6 +139,7 @@ public class SCLoginScreen extends BaseActivity{
 		private String message;
 		String company_user;
 		String employee_card_id;
+		String company_logo;
 		
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -165,12 +180,14 @@ public class SCLoginScreen extends BaseActivity{
 					levelId = obj.getString("level_id");
 					company_user= obj.getString("company_user");
 					employee_card_id= obj.getString("employee_card_id");
+					company_logo= obj.getString("company_logo");
 					SCPreferences.getPreferences().setUserName(SCLoginScreen.this, username.getText().toString());
 					SCPreferences.getPreferences().setCompanyId(SCLoginScreen.this, cId.getText().toString());
 					SCPreferences.getPreferences().setClientLogo(SCLoginScreen.this, logo.toString());
 					SCPreferences.getPreferences().setUserMasterKey(SCLoginScreen.this, masterKey);
 					SCPreferences.getPreferences().setUserFullName(SCLoginScreen.this, fullName);
 					SCPreferences.setComapnyUserName(SCLoginScreen.this, company_user);
+					SCPreferences.setComapnyLogo(SCLoginScreen.this, company_logo);
 					SCPreferences.setEmployeeCard(SCLoginScreen.this, employee_card_id);
 					
 				return true;
@@ -194,6 +211,13 @@ public class SCLoginScreen extends BaseActivity{
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			pdialog.dismiss();
+			
+			Picasso.with(SCLoginScreen.this) //
+			.load(SCPreferences.getCompanyLogo(SCLoginScreen.this)) //
+			.placeholder(R.drawable.scan_chexs_logo) //
+			.error(R.drawable.scan_chexs_logo) //
+			.into(companylogoImg);
+		//	companylogoImg.setImageBitmap(getBitmapFromURL(company_logo));
 		//	Toast.makeText(getApplicationContext(), 
 	//			    "Login reponse: "+loginresponse, 160000).show();
 			
@@ -304,6 +328,26 @@ public class SCLoginScreen extends BaseActivity{
 	private String getMy10DigitPhoneNumber() {
 		String s = getMyPhoneNumber();
 		return s;
+	}
+	
+	public static Bitmap getBitmapFromURL(String src) {
+		 Bitmap bm = null;
+		    try {
+		        URL url = new URL(src);
+		        URLConnection ucon = url.openConnection();
+		        InputStream is = ucon.getInputStream();
+		        BufferedInputStream bis = new BufferedInputStream(is);
+		        ByteArrayBuffer baf = new ByteArrayBuffer(50);
+		        int current = 0;
+		        while ((current = bis.read()) != -1) {
+		            baf.append((byte) current);
+		        }
+		        bm = BitmapFactory.decodeByteArray(baf.toByteArray(), 0,
+		                baf.toByteArray().length);
+		    } catch (IOException e) {
+		        Log.d("ImageManager", "Error: " + e);
+		    }
+		    return bm;
 	}
 
 }
