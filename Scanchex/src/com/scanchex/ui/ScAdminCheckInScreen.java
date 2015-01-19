@@ -90,6 +90,7 @@ public class ScAdminCheckInScreen extends BaseActivity {
 	private String contentType;
 	String imageUrl;
 	LinearLayout drawLayout, mainLayoutCheckOut;
+	private ImageView companylogoImg;
 	Button checkinButton;
 	String assetID;
 	Vector<AssetsTicketsInfo> vector;
@@ -131,6 +132,15 @@ public class ScAdminCheckInScreen extends BaseActivity {
 		textViewAddress = (TextView) findViewById(R.id.textViewAddress);
 		editTextRefrence = (EditText) findViewById(R.id.editTextRefrence);
 		editTextNOTES = (EditText) findViewById(R.id.editTextNOTES);
+		companylogoImg = (ImageView)findViewById(R.id.logo);
+		
+		Picasso.with(ScAdminCheckInScreen.this) //
+		.load(SCPreferences.getCompanyLogo(ScAdminCheckInScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
+		
+	 
 
 		vector = new Vector<AssetsTicketsInfo>();
 		vector = Resources.getResources().getAssetsTicketData();

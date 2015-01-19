@@ -103,6 +103,24 @@ public class SCPreferences {
 		editor.commit();
 	}
 
+	public static String getCompanyLogo(Activity mActivity) {
+		SharedPreferences sharedPreferences = mActivity.getSharedPreferences(
+				"pref", Activity.MODE_PRIVATE);
+
+		String companylogo = sharedPreferences.getString("companylogo", "");
+
+		return companylogo;
+
+	}
+	
+	public static void setComapnyLogo(Activity mActivity, String companylogo) {
+		SharedPreferences sharedPreferences = mActivity.getSharedPreferences(
+				"pref", Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString("companylogo", companylogo);
+		editor.commit();
+	}
+
 	public static String getCompanyUserName(Activity mActivity) {
 		SharedPreferences sharedPreferences = mActivity.getSharedPreferences(
 				"pref", Activity.MODE_PRIVATE);

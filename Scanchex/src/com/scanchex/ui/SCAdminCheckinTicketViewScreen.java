@@ -36,6 +36,7 @@ import com.scanchex.network.HttpWorker;
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
+import com.squareup.picasso.Picasso;
 
 public class SCAdminCheckinTicketViewScreen extends ListActivity {
 
@@ -46,6 +47,7 @@ public class SCAdminCheckinTicketViewScreen extends ListActivity {
 	String asset_id;
 	TextView title_view;
 	String title_string;
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,13 @@ public class SCAdminCheckinTicketViewScreen extends ListActivity {
 
 		listView = (ListView) findViewById(android.R.id.list);
 		title_view = (TextView) findViewById(R.id.title_textview);
+        companylogoImg = (ImageView)findViewById(R.id.logo);
+		
+		Picasso.with(SCAdminCheckinTicketViewScreen.this) //
+		.load(SCPreferences.getCompanyLogo(SCAdminCheckinTicketViewScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
 		mContext = this;
 		vector = new Vector<AssetsTicketsInfo>();
 		adapter = new SCAdminCheckinTicketsAdapter(this, vector);

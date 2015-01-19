@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.JSONParser;
+import com.scanchex.utils.SCPreferences;
 import com.squareup.picasso.Picasso;
 
 public class ScAdminCheckOutConfirmationScreen extends BaseActivity {
@@ -42,6 +43,7 @@ public class ScAdminCheckOutConfirmationScreen extends BaseActivity {
 	String ticketReturn = "", employeeName = "", ticketId = "", id = "",
 			imageUrl = "", asset_id_string = "", clientid = "",
 			duein_date = "", department = "", title = "";
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,13 @@ public class ScAdminCheckOutConfirmationScreen extends BaseActivity {
 		editTextCheckOut = (EditText) findViewById(R.id.editTextCheckOut);
 		editTextTicketIdCreated = (EditText) findViewById(R.id.editTextTicketIdCreated);
 		editTextReTurn = (EditText) findViewById(R.id.editTextReTurn);
+companylogoImg = (ImageView)findViewById(R.id.logo);
+		
+		Picasso.with(ScAdminCheckOutConfirmationScreen.this) //
+		.load(SCPreferences.getCompanyLogo(ScAdminCheckOutConfirmationScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
 		String checkOutData = getIntent().getExtras().getString(
 				"manualResponce");
 		Log.v("data from pervious screen", "data from pervious screen1 \t"

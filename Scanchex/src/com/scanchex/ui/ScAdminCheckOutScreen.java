@@ -111,6 +111,7 @@ public class ScAdminCheckOutScreen extends BaseActivity {
 	ArrayList<ScAdminManualLookModel> clientArray;
 	ArrayList<ScAdminManualLookModel> clientAddressArray;
 	ArrayList<ScAdminManualLookModel> departmentArray;
+	private ImageView companylogoImg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,13 @@ public class ScAdminCheckOutScreen extends BaseActivity {
 		drawLayout = (LinearLayout) findViewById(R.id.drawLayout);
 		mainLayoutCheckOut = (LinearLayout) findViewById(R.id.mainLayoutCheckOut);
 		checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
+        companylogoImg = (ImageView)findViewById(R.id.logo);
+		
+		Picasso.with(ScAdminCheckOutScreen.this) //
+		.load(SCPreferences.getCompanyLogo(ScAdminCheckOutScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
 		drawView.setVisibility(View.INVISIBLE);
 		mainLayoutCheckOut.setOnTouchListener(new OnTouchListener() {
 			@Override

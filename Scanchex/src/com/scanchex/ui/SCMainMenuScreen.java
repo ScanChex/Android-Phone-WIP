@@ -33,6 +33,7 @@ public class SCMainMenuScreen extends BaseActivity {
 
 	private TextView noMessageText;
 	private ImageView newMessageIcon, logo;
+	private ImageView companylogoImg;
 	LinearLayout layout;
 
 	@Override
@@ -49,6 +50,14 @@ public class SCMainMenuScreen extends BaseActivity {
 		noMessageText = (TextView) findViewById(R.id.nonew_message);
 		newMessageIcon = (ImageView) findViewById(R.id.push_icon);
 		employeeName = (TextView) findViewById(R.id.mainmenu_employeename_text);
+        companylogoImg = (ImageView)findViewById(R.id.logoTop);
+		
+		Picasso.with(SCMainMenuScreen.this) //
+		.load(SCPreferences.getCompanyLogo(SCMainMenuScreen.this)) //
+		.placeholder(R.drawable.scan_chexs_logo) //
+		.error(R.drawable.scan_chexs_logo) //
+		.into(companylogoImg);
+		
 		employeeName.setText(SCPreferences.getPreferences().getUserFullName(
 				this));
 		am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
