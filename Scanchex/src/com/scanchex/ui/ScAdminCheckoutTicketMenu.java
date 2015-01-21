@@ -20,6 +20,7 @@ public class ScAdminCheckoutTicketMenu extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sc_admin_checkout_ticket_menu);
         companylogoImg = (ImageView)findViewById(R.id.logo);
+        companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(ScAdminCheckoutTicketMenu.this) //
 		.load(SCPreferences.getCompanyLogo(ScAdminCheckoutTicketMenu.this)) //

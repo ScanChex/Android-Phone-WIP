@@ -61,6 +61,7 @@ public class SCTicketViewScreen extends ListActivity implements
 		noMessageText = (TextView) findViewById(R.id.nonew_message);
 		newMessageIcon = (ImageView) findViewById(R.id.push_icon);
 		companylogoImg = (ImageView)findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(SCTicketViewScreen.this) //
 		.load(SCPreferences.getCompanyLogo(SCTicketViewScreen.this)) //

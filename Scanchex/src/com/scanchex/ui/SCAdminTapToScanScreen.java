@@ -20,6 +20,7 @@ public class SCAdminTapToScanScreen extends BaseActivity{
 		setContentView(R.layout.sc_admin_tapto_scan_screen);
 		RelativeLayout layout = (RelativeLayout)findViewById(R.id.adminTapScreen);
 		 companylogoImg = (ImageView)findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 			
 			Picasso.with(SCAdminTapToScanScreen.this) //
 			.load(SCPreferences.getCompanyLogo(SCAdminTapToScanScreen.this)) //

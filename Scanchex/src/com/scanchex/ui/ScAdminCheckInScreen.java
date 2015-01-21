@@ -133,6 +133,7 @@ public class ScAdminCheckInScreen extends BaseActivity {
 		editTextRefrence = (EditText) findViewById(R.id.editTextRefrence);
 		editTextNOTES = (EditText) findViewById(R.id.editTextNOTES);
 		companylogoImg = (ImageView)findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(ScAdminCheckInScreen.this) //
 		.load(SCPreferences.getCompanyLogo(ScAdminCheckInScreen.this)) //

@@ -72,6 +72,7 @@ public class SCAdminMainMenuScreen extends BaseActivity implements OnClickListen
 		employeeName.setText(getIntent().getExtras().getString("NAME"));
 		userName = (Button) findViewById(R.id.registerbutton);
         companylogoImg = (ImageView)findViewById(R.id.logoTop);
+        companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(SCAdminMainMenuScreen.this) //
 		.load(SCPreferences.getCompanyLogo(SCAdminMainMenuScreen.this)) //

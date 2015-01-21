@@ -58,6 +58,7 @@ public class SCAdminCheckinTicketViewScreen extends ListActivity {
 		listView = (ListView) findViewById(android.R.id.list);
 		title_view = (TextView) findViewById(R.id.title_textview);
         companylogoImg = (ImageView)findViewById(R.id.logo);
+        companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(SCAdminCheckinTicketViewScreen.this) //
 		.load(SCPreferences.getCompanyLogo(SCAdminCheckinTicketViewScreen.this)) //

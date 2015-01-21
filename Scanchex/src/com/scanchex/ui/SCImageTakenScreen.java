@@ -121,6 +121,7 @@ public class SCImageTakenScreen extends BaseActivity{
 	        			 Resources.getResources().setLaunchloginactivity(false);
 	        			 Resources.getResources().setFromBackground(false);
 	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	        			startActivity(i);
 	        		   
 	        		}
@@ -192,7 +193,7 @@ public class SCImageTakenScreen extends BaseActivity{
 
 		       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
 		        		  //     "Date & Time taken: "+currentDate+"\n"+
-		        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
+		        		  //     "Employee: "+EmployeeName+"\n �� ScanChex, Inc";
 		    	  c.drawText(text1 , width-bounds.width()-10, height-155, paint);
 			        paint.setTextSize(10);
 			        paint.setFakeBoldText(true);
@@ -247,7 +248,7 @@ public class SCImageTakenScreen extends BaseActivity{
 //			      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
 			        paint.setTextSize(6);
 				     
-			        text1 = "© ScanChex, Inc";
+			        text1 = "�� ScanChex, Inc";
 					 
 			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
 				    
@@ -312,7 +313,7 @@ public class SCImageTakenScreen extends BaseActivity{
 
 			       // String text1 = "TICKET ID: "+ tInfo.ticketId ;
 			        		  //     "Date & Time taken: "+currentDate+"\n"+
-			        		  //     "Employee: "+EmployeeName+"\n © ScanChex, Inc";
+			        		  //     "Employee: "+EmployeeName+"\n �� ScanChex, Inc";
 			        c.drawText(text1 , width-bounds.width()-10, height-155, paint);
 			        paint.setTextSize(10);
 			        paint.setFakeBoldText(true);
@@ -367,7 +368,7 @@ public class SCImageTakenScreen extends BaseActivity{
 //			      //  c.drawBitmap(bitmap, source, bitmapRect, new Paint());
 			        paint.setTextSize(6);
 				     
-			        text1 = "© ScanChex, Inc";
+			        text1 = "�� ScanChex, Inc";
 					 
 			       	paint.getTextBounds(text1, 0, text1.length(), bounds);
 				    

@@ -66,6 +66,7 @@ public class ScAdminCheckOutConfirmationScreen extends BaseActivity {
 		editTextTicketIdCreated = (EditText) findViewById(R.id.editTextTicketIdCreated);
 		editTextReTurn = (EditText) findViewById(R.id.editTextReTurn);
 companylogoImg = (ImageView)findViewById(R.id.logo);
+companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(ScAdminCheckOutConfirmationScreen.this) //
 		.load(SCPreferences.getCompanyLogo(ScAdminCheckOutConfirmationScreen.this)) //

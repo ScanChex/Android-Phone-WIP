@@ -73,6 +73,7 @@ public class ScAdminManualLookUp extends BaseActivity {
 		editTextAddress = (EditText) findViewById(R.id.spinnerViewAddress);
 		editTextDepartment = (EditText) findViewById(R.id.spinnerViewDepartment);
 		 companylogoImg = (ImageView) findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 	        
 	       Picasso.with(ScAdminManualLookUp.this) //
 			.load(SCPreferences.getCompanyLogo(ScAdminManualLookUp.this)) //

@@ -80,6 +80,7 @@ public class ScAdminScanLookUp extends BaseActivity {
 		editTextDepartment = (EditText) findViewById(R.id.editTextDepartment);
 		buttonTitle = (Button) findViewById(R.id.button2);
 		 companylogoImg = (ImageView) findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 	        
 	       Picasso.with(ScAdminScanLookUp.this) //
 			.load(SCPreferences.getCompanyLogo(ScAdminScanLookUp.this)) //

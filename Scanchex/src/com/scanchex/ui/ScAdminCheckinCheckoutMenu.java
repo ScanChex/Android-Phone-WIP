@@ -18,6 +18,7 @@ public class ScAdminCheckinCheckoutMenu extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sc_admin_checkin_menu_screen);
 		 companylogoImg = (ImageView)findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 			
 			Picasso.with(ScAdminCheckinCheckoutMenu.this) //
 			.load(SCPreferences.getCompanyLogo(ScAdminCheckinCheckoutMenu.this)) //

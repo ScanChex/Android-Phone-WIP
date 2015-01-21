@@ -89,6 +89,7 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 		questionstatusicon = (ImageView) findViewById(R.id.question_status_icon);
 		documentstatusicon = (ImageView) findViewById(R.id.document_status_icon);
 		 companylogoImg = (ImageView) findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 	        
        Picasso.with(SCDetailsFragmentScreen.this) //
 		.load(SCPreferences.getCompanyLogo(SCDetailsFragmentScreen.this)) //
@@ -235,6 +236,7 @@ public class SCDetailsFragmentScreen extends SherlockFragmentActivity {
 	        			 Resources.getResources().setLaunchloginactivity(false);
 	        			 Resources.getResources().setFromBackground(false);
 	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	        			startActivity(i);
 	        		   
 	        		}

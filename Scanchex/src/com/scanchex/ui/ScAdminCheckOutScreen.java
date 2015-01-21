@@ -133,6 +133,7 @@ public class ScAdminCheckOutScreen extends BaseActivity {
 		mainLayoutCheckOut = (LinearLayout) findViewById(R.id.mainLayoutCheckOut);
 		checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
         companylogoImg = (ImageView)findViewById(R.id.logo);
+        companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(ScAdminCheckOutScreen.this) //
 		.load(SCPreferences.getCompanyLogo(ScAdminCheckOutScreen.this)) //

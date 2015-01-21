@@ -51,6 +51,7 @@ public class SCMainMenuScreen extends BaseActivity {
 		newMessageIcon = (ImageView) findViewById(R.id.push_icon);
 		employeeName = (TextView) findViewById(R.id.mainmenu_employeename_text);
         companylogoImg = (ImageView)findViewById(R.id.logoTop);
+        companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(SCMainMenuScreen.this) //
 		.load(SCPreferences.getCompanyLogo(SCMainMenuScreen.this)) //
@@ -93,6 +94,7 @@ public class SCMainMenuScreen extends BaseActivity {
 	    	        			 Resources.getResources().setLaunchloginactivity(false);
 	    	        			 Resources.getResources().setFromBackground(false);
 	    	        			Intent i = new Intent(this, SCLoginScreen.class);
+	    	        			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	    	        			startActivity(i);
 	    	        		   
 	    	        		}

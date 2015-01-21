@@ -63,6 +63,7 @@ public class SCLoginScreen extends BaseActivity{
 		username = (EditText)findViewById(R.id.login_username_edittext);
 		password = (EditText)findViewById(R.id.login_password_edittext);
 		companylogoImg = (ImageView)findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 		
 		
 		cId.setText(SCPreferences.getPreferences().getCompanyId(this));

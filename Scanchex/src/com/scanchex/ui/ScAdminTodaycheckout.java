@@ -52,6 +52,7 @@ public class ScAdminTodaycheckout extends ListActivity {
 		listView = (ListView) findViewById(android.R.id.list);
 		title_view = (TextView) findViewById(R.id.title_textview);
 		companylogoImg = (ImageView)findViewById(R.id.logo);
+		 companylogoImg.setPadding(20, 5, 20, 5);
 		
 		Picasso.with(ScAdminTodaycheckout.this) //
 		.load(SCPreferences.getCompanyLogo(ScAdminTodaycheckout.this)) //
