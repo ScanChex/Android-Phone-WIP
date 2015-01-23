@@ -37,6 +37,7 @@ import com.scanchex.ui.ScAdminManualLookUp.ManualLookUpAsyncTask;
 import com.scanchex.utils.CONSTANTS;
 import com.scanchex.utils.JSONParser;
 import com.scanchex.utils.Network;
+import com.scanchex.utils.Resources;
 import com.scanchex.utils.SCPreferences;
 import com.squareup.picasso.Picasso;
 
@@ -111,7 +112,27 @@ public class ScAdminScanLookUp extends BaseActivity {
 			showToast("Please check your internet connection");
 		}
 	}
-
+	 @Override
+	    protected void onStart() {
+	        super.onStart();       
+	     
+	        	if ( SCPreferences.getPreferences().getUserFullName(this).length()>0) {
+	        		if (Resources.getResources().isLaunchloginactivity()  && Resources.getResources().isFromBackground())  {
+	        	//	fireAlarm();
+	        			Log.i("Base Activity", "App in foreground after 10 mins ");
+	        			 Resources.getResources().setLaunchloginactivity(false);
+	        			 Resources.getResources().setFromBackground(false);
+	        			Intent i = new Intent(this, SCLoginScreen.class);
+	        			i.addFlags((Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+	    		        
+	        			startActivity(i);
+	        		   
+	        		}
+	        	    	
+	        		}
+	      
+	    }
+	
 	private void setEmployee(String assetObject2) {
 		// TODO Auto-generated method stub
 

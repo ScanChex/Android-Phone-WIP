@@ -177,7 +177,8 @@ public class ScPaynowScreen extends BaseActivity implements OnClickListener{
 	        			 Resources.getResources().setLaunchloginactivity(false);
 	        			 Resources.getResources().setFromBackground(false);
 	        			Intent i = new Intent(this, SCLoginScreen.class);
-	        			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        			i.addFlags((Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+	    		        
 	        			startActivity(i);
 	        		   
 	        		}
